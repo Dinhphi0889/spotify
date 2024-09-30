@@ -30,7 +30,7 @@ CREATE TABLE `Following` (
   KEY `followingUserId` (`followingId`),
   CONSTRAINT `Following_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `User` (`userId`),
   CONSTRAINT `Following_ibfk_2` FOREIGN KEY (`followingId`) REFERENCES `User` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `Genre` (
   `genreId` int NOT NULL AUTO_INCREMENT,
@@ -72,7 +72,7 @@ CREATE TABLE `Message` (
   PRIMARY KEY (`idMess`),
   KEY `idUser` (`idSender`),
   CONSTRAINT `Message_ibfk_2` FOREIGN KEY (`idSender`) REFERENCES `User` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `Playlists` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -171,14 +171,14 @@ INSERT INTO `Discuss` (`userId`, `discussId`, `content`, `songId`, `discussDate`
 (27, 23, 'string', 13, '2024-07-31 08:15:46', NULL);
 
 INSERT INTO `Following` (`id`, `userId`, `followingId`) VALUES
-(61, 1, 1);
-INSERT INTO `Following` (`id`, `userId`, `followingId`) VALUES
 (63, 2, 3);
 INSERT INTO `Following` (`id`, `userId`, `followingId`) VALUES
 (64, 2, 6);
 INSERT INTO `Following` (`id`, `userId`, `followingId`) VALUES
-(65, 3, 4),
-(66, 6, 1);
+(65, 3, 4);
+INSERT INTO `Following` (`id`, `userId`, `followingId`) VALUES
+(66, 6, 1),
+(68, 1, 1);
 
 INSERT INTO `Genre` (`genreId`, `nameGenre`, `createTime`) VALUES
 (1, 'Pop', '2024-07-13 10:00:00');
@@ -233,7 +233,18 @@ INSERT INTO `Message` (`idMess`, `idSender`, `contentMess`, `timeSend`, `roomCha
 (7, 2, 'Check out this new album!', '2024-01-01 10:15:00', '1-2'),
 (8, 5, 'Thanks, I will!', '2024-01-01 10:16:00', '3-5'),
 (9, 3, 'Let\'s meet up this weekend.', '2024-01-01 10:20:00', '3-5'),
-(10, 6, 'Sure, sounds good!', '2024-01-01 10:21:00', '4-6');
+(10, 6, 'Sure, sounds good!', '2024-01-01 10:21:00', '4-6'),
+(14, 1, 'Hello', '2024-01-01 10:21:00', '1-3'),
+(15, 3, 'Hi!', '2024-01-01 10:21:00', '1-3'),
+(16, 1, 'How are you?', '2024-01-01 10:21:00', '1-3'),
+(17, 3, 'I\'m fine, and u?', '2024-01-01 10:21:00', '1-3'),
+(18, 1, 'thanks, what are you doing?', '2024-01-01 10:21:00', '1-3'),
+(19, 3, 'i\'m listening music', '2024-01-01 10:21:00', '1-3'),
+(56, 2, '1', '2024-09-30 06:29:07', '1-2'),
+(57, 2, '2', '2024-09-30 06:29:17', '1-2'),
+(58, 2, '1', '2024-09-30 06:30:02', '1-2'),
+(59, 2, '', '2024-09-30 06:31:37', '1-2'),
+(60, 2, '1', '2024-09-30 06:34:16', '1-2');
 
 INSERT INTO `Playlists` (`id`, `userId`, `imagePath`, `playlistName`, `description`, `createDate`) VALUES
 (10, 1, 'path/to/image1.jpg', 'string', 'string', '2024-07-20 10:00:00');

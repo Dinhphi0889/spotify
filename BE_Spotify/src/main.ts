@@ -2,7 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as express from 'express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ValidationPipe } from '@nestjs/common';
+import { Server } from 'socket.io';
+import { IoAdapter } from '@nestjs/platform-socket.io';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
@@ -10,7 +11,16 @@ async function bootstrap() {
   app.enableCors({
     origin: '*',
   });
-
+  // const server = app.getHttpServer();
+  // const socketServer = new Server(server, {
+  //   transports: ['websocket'],
+  //   cors: {
+  //     origin: 'http://localhost:5173',
+  //     methods: ['GET', 'POST'],
+  //     credentials: true,
+  //   },
+  // });
+  app.useWebSocketAdapter(new IoAdapter(app))
   const config = new DocumentBuilder()
     .setTitle('Spotify')
     .build();
@@ -18,6 +28,7 @@ async function bootstrap() {
   SwaggerModule.setup('/swagger', app, document);
   // app.useGlobalPipes(new ValidationPipe());
   app.use(express.static('.'));
+
   await app.listen(8080);
 }
 bootstrap();

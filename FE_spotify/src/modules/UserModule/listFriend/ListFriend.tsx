@@ -4,29 +4,37 @@ import { useAppSelector } from '../../../redux/hooks';
 import { apiGetFriend } from '../../../apis/apiGetFriend';
 import { TypeListFriend } from '../../../types/typeListFriend';
 import './listFriend.css'
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 import { apiGetMessage } from '../../../apis/apiGetMessage';
 import { TypeMessage } from '../../../types/typeMessage';
 import { TypeUser } from '../../../types/typeUser';
 import moment from 'moment';
 
 interface ContentMessage {
-    message: []
-    sender: TypeUser
+    message: TypeMessage[];  // Định nghĩa là một mảng các TypeMessage
+    sender?: TypeUser;
 }
 const ListFriend: React.FC = () => {
-    // const socket = io('http://localhost:5000')
 
     const { currentUser } = useAppSelector(state => state.currentUser)
     const [open, setOpen] = useState(false);
     const [openMessageBox, setOpenMessageBox] = useState(false)
     const [showListFriend, isShowListFriend] = useState<TypeListFriend[] | undefined>([])
     const [chatWith, setChatWith] = useState<TypeListFriend>()
-    const [messages, setMessages] = useState<TypeMessage[]>([]); // Lưu trữ các tin nhắn
-    const [contentMessages, setContentMessages] = useState<ContentMessage>()
+    const [contentMessages, setContentMessages] = useState<ContentMessage | undefined>(undefined)
     const [roomChat, setRoomChat] = useState<string>("")
     const chatEndRef = useRef<HTMLDivElement | null>(null);
+    const socketRef = useRef<Socket | null>(null)
 
+    socketRef.current = io('http://localhost:8080', {
+        transports: ['websocket'],
+        reconnection: true, // Cho phép tự động kết nối lại
+        reconnectionAttempts: Infinity, // Số lần thử kết nối lại
+        reconnectionDelay: 1000, // Thời gian chờ giữa các lần thử kết nối lại
+        secure: false, // Đặt thành false nếu bạn không sử dụng HTTPS
+        timeout: 20000, // Thời gian chờ kết nối (tăng thời gian nếu cần)
+        autoConnect: true, // Tự động kết nối khi khởi tạo
+    })
     // show drawer
     const showDrawer = (data?: any) => {
         setOpen(!open);
@@ -84,36 +92,106 @@ const ListFriend: React.FC = () => {
                     </List.Item>
                 )}
             />
-
         }
     }
 
     const createRoomChat = (user1: string, user2: string) => {
         setRoomChat([user1, user2].sort().join('-'))
     }
-
-    // Lắng nghe tin nhắn từ socket
     // useEffect(() => {
-    //     socket.on('receive_message', (message: Message) => {
-    //         setMessages((prevMessages: any) => [...prevMessages, message]);
-    //     });
-    // }, []);
+    //     socket.on('message', (newMessage) => {
+    //         setContentMessages((prevMessages) => {
+    //             if (prevMessages) {
+    //                 return {
+    //                     ...prevMessages,
+    //                     message: [...prevMessages.message, newMessage]
+    //                 }
+    //             }
+    //             else {
+    //                 return {
+    //                     message: [newMessage],
+    //                     sender: currentUser.user.userId
+    //                 }
+    //             }
+    //         });
+    //     })
+    //     socket.off("message")
+    // }, [])
+    useEffect(() => {
+        if (socketRef.current) {
+            socketRef.current.on('connect', () => {
+                console.log('Socket connected successfully!');
+                setTimeout(() => {
+                    console.log('Socket ID:', socketRef.current?.id); // Kiểm tra lại ID sau khi kết nối thành công
+                }, 100); // Đặt độ trễ 100ms trước khi kiểm tra ID
+            });
+            socketRef.current.on('message', (newMessage) => {
+                setContentMessages((prevMessages) => {
+                    if (prevMessages) {
+                        return {
+                            ...prevMessages,
+                            message: [...prevMessages.message, newMessage]
+                        }
+                    }
+                    else {
+                        return {
+                            message: [newMessage],
+                            sender: currentUser.user.userId
+                        }
+                    }
+                });
+            })
+            // Xử lý khi socket bị ngắt kết nối
+            socketRef.current.on('disconnect', () => {
+                console.log('Socket disconnected');
+            });
+            return () => {
+                socketRef.current?.disconnect();
+            };
+        }
+    }, [])
 
     const handleSendMessage = (content: string) => {
-        const date = new Date()
-        if (chatWith) {
-            const newMessage: TypeMessage = {
-                idSender: currentUser?.user.userId,
-                timeSend: date,
-                contentMess: content,
-                roomChat: roomChat
-            };
-            // socket.emit('send_message', newMessage); // Gửi tin nhắn qua socket
-            setMessages((prevMessages: any) => [...prevMessages, newMessage]); // Cập nhật tin nhắn
-        }
-    };
+        if (socketRef.current) {
+            if (!socketRef.current.connected) {
+                socketRef.current.connect()
+                return
+            }
+            const date = new Date()
+            if (!socketRef.current.connected) {
+                console.log("connect false")
+                return
+            }
+            if (chatWith) {
+                const newMessage: TypeMessage = {
+                    idSender: currentUser.user.userId,
+                    timeSend: date,
+                    contentMess: content,
+                    roomChat: roomChat
+                };
 
-    // Scroll to the bottom when the component is first rendered
+                socketRef.current.emit('message', newMessage, (response: any) => {
+                    console.log('message send success', response)
+                }); // Gửi tin nhắn qua socket
+                setContentMessages((prevMessages) => {
+                    if (prevMessages) {
+                        return {
+                            ...prevMessages,
+                            message: [...prevMessages.message, newMessage]
+                        }
+                    }
+                    else {
+                        return {
+                            message: [newMessage],
+                            sender: currentUser.user.userId
+                        }
+                    }
+                });
+            }
+        }
+
+    };
+    // handler scroll when open message box
     const scrollToBottom = () => {
         chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
@@ -122,17 +200,17 @@ const ListFriend: React.FC = () => {
         setTimeout(() => {
             scrollToBottom(); // Cuộn đến cuối khi messages thay đổi
         }, 480)
-    }, [messages, openMessageBox]);
+    }, [contentMessages, openMessageBox]);
 
     const handleShowMessage = () => {
-        // const date = new Date()
         if (contentMessages) {
             return contentMessages.message.map((message: TypeMessage, index) => {
+                console.log(message.idSender === currentUser.user.userId ? true : false)
                 const date = moment(message.timeSend).format('DD/MM/YYYY HH:mm:ss')
                 return (
                     <>
                         <div key={index}
-                            className={`message-item my-2 p-2 max-w-xs rounded-lg w-3/6 ${message.idSender !== 1
+                            className={`message-item my-2 p-2 max-w-xs rounded-lg w-3/6 ${message.idSender !== currentUser.user.userId
                                 ? 'ml-auto bg-blue-500 text-white'
                                 : 'mr-auto bg-white text-black'
                                 }`}>
@@ -217,7 +295,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend }) => {
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Type your message..."
             />
-            <button onClick={handleSend}>Send</button>
+            <button className='text-white' onClick={handleSend}>Send</button>
         </div>
     );
 };
