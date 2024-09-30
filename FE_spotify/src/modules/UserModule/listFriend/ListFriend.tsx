@@ -98,6 +98,7 @@ const ListFriend: React.FC = () => {
     const createRoomChat = (user1: string, user2: string) => {
         setRoomChat([user1, user2].sort().join('-'))
     }
+
     // useEffect(() => {
     //     socket.on('message', (newMessage) => {
     //         setContentMessages((prevMessages) => {
@@ -117,6 +118,7 @@ const ListFriend: React.FC = () => {
     //     })
     //     socket.off("message")
     // }, [])
+    
     useEffect(() => {
         if (socketRef.current) {
             socketRef.current.on('connect', () => {
@@ -173,20 +175,21 @@ const ListFriend: React.FC = () => {
                 socketRef.current.emit('message', newMessage, (response: any) => {
                     console.log('message send success', response)
                 }); // Gửi tin nhắn qua socket
-                setContentMessages((prevMessages) => {
-                    if (prevMessages) {
-                        return {
-                            ...prevMessages,
-                            message: [...prevMessages.message, newMessage]
-                        }
-                    }
-                    else {
-                        return {
-                            message: [newMessage],
-                            sender: currentUser.user.userId
-                        }
-                    }
-                });
+                
+                // setContentMessages((prevMessages) => {
+                //     if (prevMessages) {
+                //         return {
+                //             ...prevMessages,
+                //             message: [...prevMessages.message, newMessage]
+                //         }
+                //     }
+                //     else {
+                //         return {
+                //             message: [newMessage],
+                //             sender: currentUser.user.userId
+                //         }
+                //     }
+                // });
             }
         }
 
@@ -210,7 +213,7 @@ const ListFriend: React.FC = () => {
                 return (
                     <>
                         <div key={index}
-                            className={`message-item my-2 p-2 max-w-xs rounded-lg w-3/6 ${message.idSender !== currentUser.user.userId
+                            className={`message-item my-2 p-2 max-w-xs rounded-lg w-3/6 ${message.idSender === currentUser.user.userId
                                 ? 'ml-auto bg-blue-500 text-white'
                                 : 'mr-auto bg-white text-black'
                                 }`}>
@@ -282,8 +285,16 @@ interface MessageInputProps {
 const MessageInput: React.FC<MessageInputProps> = ({ onSend }) => {
     const [inputValue, setInputValue] = useState('');
     const handleSend = () => {
-        onSend(inputValue);
+        if(inputValue.trim()){
+            onSend(inputValue);
         setInputValue(''); // Reset input sau khi gửi
+        }
+    };
+
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            handleSend();  // Gửi tin nhắn khi nhấn Enter
+        }
     };
 
     return (
@@ -294,6 +305,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend }) => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Type your message..."
+                onKeyPress={handleKeyPress} 
             />
             <button className='text-white' onClick={handleSend}>Send</button>
         </div>

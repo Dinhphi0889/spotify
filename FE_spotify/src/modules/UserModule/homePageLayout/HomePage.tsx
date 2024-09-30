@@ -49,9 +49,9 @@ export default function HomePage() {
             <div className='artists'>
                 {renderArtists()}
             </div>
-            <div className='list-friend fixed bottom-5 right-10'>
+            {/* <div className='list-friend fixed bottom-5 right-10'>
                 <ListFriend />
-            </div>
+            </div> */}
         </section>
     )
 }
