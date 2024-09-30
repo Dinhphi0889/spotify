@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom'
 import Sidebar from './_sidebar/Sidebar'
 import PlayMusic from '../../modules/UserModule/playMusic/PlayMusic'
 import { ModalProvider } from '../../globalContext/ModalContext'
+import ListFriend from '../../modules/UserModule/listFriend/ListFriend'
 export default function UserLayout() {
     return (
         <div>
@@ -22,6 +23,9 @@ export default function UserLayout() {
                         </div>
                         <Footer />
                     </div>
+                    <div className='list-friend fixed bottom-12 right-10'>
+                <ListFriend />
+            </div>
                 </ModalProvider>
             </div>
         </div>
