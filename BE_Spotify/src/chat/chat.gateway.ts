@@ -6,8 +6,7 @@ import { PrismaService } from "./prisma.service";
 
 @WebSocketGateway({
     cors: {
-        origin: ['http://localhost:5173'], // Cấu hình CORS cho phép Vite kết nối
-        // methods: ['GET', 'POST'],
+        origin: ['http://localhost:5173'],
         credentials: true,
     },
 })

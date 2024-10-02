@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { apiGetUser } from '../../../apis/apiGetUser';
 import { TypeUser } from '../../../types/typeUser';
 import { Link } from 'react-router-dom';
-import ListFriend from '../listFriend/ListFriend';
 
 const { Meta } = Card;
 export default function HomePage() {

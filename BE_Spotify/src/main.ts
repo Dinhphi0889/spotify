@@ -11,15 +11,7 @@ async function bootstrap() {
   app.enableCors({
     origin: '*',
   });
-  // const server = app.getHttpServer();
-  // const socketServer = new Server(server, {
-  //   transports: ['websocket'],
-  //   cors: {
-  //     origin: 'http://localhost:5173',
-  //     methods: ['GET', 'POST'],
-  //     credentials: true,
-  //   },
-  // });
+
   app.useWebSocketAdapter(new IoAdapter(app))
   const config = new DocumentBuilder()
     .setTitle('Spotify')

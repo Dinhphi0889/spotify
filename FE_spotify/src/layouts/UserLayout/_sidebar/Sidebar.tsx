@@ -1,10 +1,13 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import './sidebar.css'
 import { Button, Popover } from 'antd';
 import { useModal } from '../../../globalContext/ModalContext';
+import { useAppSelector } from '../../../redux/hooks';
 
 export default function Sidebar() {
   const { openModal, openPopover, popover } = useModal()
+  const navigate = useNavigate()
+  const { currentUser } = useAppSelector((state => state.currentUser))
 
   return (
     <div className='sidebar mt-3 pl-3 mr-2'>
@@ -37,9 +40,8 @@ export default function Sidebar() {
           <div className='create-playlist '>
             <p className="font-bold">Create your first playlist</p>
             <p className='font-medium'>It's easy, we'll help you</p>
-            <Popover
-              // className='popover-sidebar'
-              style={{ backgroundColor: 'blue' }}
+            {!currentUser ? (<Popover
+              style={{ backgroundColor: 'blue', left: "10%" }}
               content={<a onClick={popover}>Close</a>}
               title={
                 <>
@@ -62,6 +64,12 @@ export default function Sidebar() {
                 onClick={popover}
               >Create playlist</Button>
             </Popover>
+            ) : (<Button
+              type="primary"
+              className='btn-createPlaylist'
+              onClick={() => { navigate('/play-list') }}
+            >Create playlist</Button>)}
+
           </div>
           <div className='footer-sidebar-bottom'>
             <span>Legal</span>

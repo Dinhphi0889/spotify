@@ -2,6 +2,7 @@ import { useRoutes } from "react-router-dom"
 import HomePage from "../modules/UserModule/homePageLayout/HomePage"
 import UserLayout from "../layouts/UserLayout"
 import DetailArtists from "../modules/UserModule/detailArtists/DetailArtists"
+import Playlist from "../modules/UserModule/playList/Playlist"
 
 const useRoutesElements = () => {
     const element = useRoutes([
@@ -16,6 +17,10 @@ const useRoutesElements = () => {
                 {
                     path: 'detail-artists/:id',
                     element: <DetailArtists />
+                },
+                {
+                    path: 'play-list',
+                    element: <Playlist />
                 }
             ]
         }

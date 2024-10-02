@@ -99,26 +99,6 @@ const ListFriend: React.FC = () => {
         setRoomChat([user1, user2].sort().join('-'))
     }
 
-    // useEffect(() => {
-    //     socket.on('message', (newMessage) => {
-    //         setContentMessages((prevMessages) => {
-    //             if (prevMessages) {
-    //                 return {
-    //                     ...prevMessages,
-    //                     message: [...prevMessages.message, newMessage]
-    //                 }
-    //             }
-    //             else {
-    //                 return {
-    //                     message: [newMessage],
-    //                     sender: currentUser.user.userId
-    //                 }
-    //             }
-    //         });
-    //     })
-    //     socket.off("message")
-    // }, [])
-    
     useEffect(() => {
         if (socketRef.current) {
             socketRef.current.on('connect', () => {
@@ -175,21 +155,7 @@ const ListFriend: React.FC = () => {
                 socketRef.current.emit('message', newMessage, (response: any) => {
                     console.log('message send success', response)
                 }); // Gửi tin nhắn qua socket
-                
-                // setContentMessages((prevMessages) => {
-                //     if (prevMessages) {
-                //         return {
-                //             ...prevMessages,
-                //             message: [...prevMessages.message, newMessage]
-                //         }
-                //     }
-                //     else {
-                //         return {
-                //             message: [newMessage],
-                //             sender: currentUser.user.userId
-                //         }
-                //     }
-                // });
+
             }
         }
 
@@ -208,7 +174,6 @@ const ListFriend: React.FC = () => {
     const handleShowMessage = () => {
         if (contentMessages) {
             return contentMessages.message.map((message: TypeMessage, index) => {
-                console.log(message.idSender === currentUser.user.userId ? true : false)
                 const date = moment(message.timeSend).format('DD/MM/YYYY HH:mm:ss')
                 return (
                     <>
