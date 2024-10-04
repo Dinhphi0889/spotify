@@ -23,6 +23,13 @@ class TypeAddNewPlaylist {
   @ApiProperty()
   playlistId: number
 }
+
+class TypeAddSongToPlayList {
+  @ApiProperty()
+  playlistId: number
+  @ApiProperty()
+  songId: number
+}
 @ApiHeader({
   name: 'tokenCyberSoft',
   description: 'Nhập token cybersoft',
@@ -76,7 +83,7 @@ export class PlayListController {
 
   // Add song to playlist
   @ApiBody({
-    type: TypeAddNewPlaylist
+    type: TypeAddSongToPlayList
   })
   @Post('add-song-to-playlist')
   async addSongToPlaylist(@Body() addSongToPlaylist: AddSongsToPlaylistDto) {

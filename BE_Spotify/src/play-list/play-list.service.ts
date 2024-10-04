@@ -26,6 +26,7 @@ export class PlayListService {
     const playlist = await this.prisma.playlists.findUnique({
       where: { id: playlistId },
     });
+    
     if (!playlist) {
       throw new NotFoundException(`Playlist with ID ${playlistId} not found`);
     }

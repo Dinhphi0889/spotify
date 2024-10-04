@@ -24,7 +24,7 @@ export class AddSongsToPlaylistDto {
     @IsInt()
     playlistId: number;
 
-    @IsArray()
+    @IsNotEmpty()
     @IsInt()
     songId: number;
 }
