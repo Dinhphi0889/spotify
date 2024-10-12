@@ -98,7 +98,7 @@ export class PlayListController {
 
   // Add song to playlist
   @ApiBody({
-    type: TypeAddNewPlaylist
+    type: TypeAddSongToPlayList,
   })
   @Post('add-song-to-playlist')
   async addSongToPlaylist(@Body() addSongToPlaylist: AddSongsToPlaylistDto) {
