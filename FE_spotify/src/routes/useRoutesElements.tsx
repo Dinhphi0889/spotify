@@ -19,7 +19,7 @@ const useRoutesElements = () => {
                     element: <DetailArtists />
                 },
                 {
-                    path: 'play-list',
+                    path: 'play-list/:id',
                     element: <Playlist />
                 }
             ]
