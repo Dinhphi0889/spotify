@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
@@ -36,7 +36,7 @@ import { ChatModule } from './chat/chat.module';
     JwtModule.register({
       secret: 'testToken12333',
       signOptions: { expiresIn: '24h' },
-      global: true
+      global: true,
     }),
     ListFriendsModule,
     ChatModule,
@@ -50,4 +50,4 @@ import { ChatModule } from './chat/chat.module';
     },
   ],
 })
-export class AppModule { }
+export class AppModule {}

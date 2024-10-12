@@ -1,11 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { AddSongsToPlaylistDto, CreatePlayListDto } from './dto/create-play-list.dto';
+import {
+  AddSongsToPlaylistDto,
+  CreatePlayListDto,
+} from './dto/create-play-list.dto';
 import { UpdatePlayListDto } from './dto/update-play-list.dto';
 import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class PlayListService {
-  prisma = new PrismaClient()
+  prisma = new PrismaClient();
 
   // add new song to playlist
   createPlaylist(createPlayListDto: CreatePlayListDto) {
@@ -16,7 +19,7 @@ export class PlayListService {
         playlistName: createPlayListDto.playlistName,
         description: createPlayListDto.description,
         createDate: createPlayListDto.createDate,
-      }
+      },
     });
   }
 
@@ -40,26 +43,32 @@ export class PlayListService {
 
   // Get all playlist
   findAll() {
-    return this.prisma.playlists.findMany()
+    return this.prisma.playlists.findMany();
   }
 
   // get all song in playlist
   getAllPlaylistSong() {
-    return this.prisma.playlistSongs.findMany()
+    return this.prisma.playlistSongs.findMany();
   }
 
   // get playlist of user
   async getPlaylistOfUser(id: number) {
-    return await this.prisma.playlists.findMany({ where: { userId: id } })
+    return await this.prisma.playlists.findMany({ where: { userId: id } });
   }
 
   // get song in playlist
   async getSongInPlaylist(id: number) {
     return await this.prisma.playlistSongs.findMany({
-      where: { songId: id },
+      where: { playlistId: id },
       include: {
-        Song: true
-      }
+        Song: true,
+      },
+    });
+  }
+
+  async getPlaylistById(playlistId: number) {
+    return await this.prisma.playlists.findFirst({
+      where: { id: playlistId }
     })
   }
 
@@ -69,8 +78,8 @@ export class PlayListService {
       where: { id },
       data: {
         playlistName: updatePlayListDto.playlistName,
-        description: updatePlayListDto.description
-      }
+        description: updatePlayListDto.description,
+      },
     });
   }
 
@@ -78,8 +87,29 @@ export class PlayListService {
   remove(id: number) {
     return this.prisma.playlists.delete({
       where: {
-        id
-      }
+        id,
+      },
     });
+  }
+
+  // Hàm lấy chi tiết playlist
+  async getPlaylistDetail(playlistId: number) {
+    const playlist = await this.prisma.playlists.findUnique({
+      where: { id: playlistId },
+      include: {
+        PlaylistSongs: {
+          include: {
+            Song: true, // Lấy thông tin bài hát trong playlist
+          },
+        },
+        User: true, // Lấy thông tin người dùng tạo playlist
+      },
+    });
+
+    if (!playlist) {
+      throw new NotFoundException(`Playlist with ID ${playlistId} not found`);
+    }
+
+    return playlist;
   }
 }

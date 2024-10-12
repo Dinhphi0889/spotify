@@ -1,0 +1,83 @@
+/* Container chính cho chi tiết playlist */
+.playlist-detail-container {
+  background-color: #121212; /* Nền tối */
+  padding: 40px;
+  color: white;
+}
+
+/* Header của Playlist */
+.playlist-header {
+  display: flex;
+  align-items: center;
+}
+
+/* Hình ảnh của Playlist */
+.playlist-cover {
+  width: 128px;
+  height: 128px;
+  border-radius: 8px;
+}
+
+/* Thông tin của Playlist */
+.playlist-info {
+  flex: 1;
+}
+
+/* Tiêu đề của Playlist */
+.playlist-title {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+/* Mô tả của Playlist */
+.playlist-description {
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+/* Meta của Playlist */
+.playlist-meta {
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+/* Nút Play */
+.btn-play {
+  background-color: #1db954;
+  color: white;
+  font-size: 18px;
+  padding: 12px 24px;
+  margin-top: 16px;
+}
+
+.btn-play i {
+  margin-right: 8px;
+}
+
+/* Danh sách bài hát */
+.playlist-songs {
+  margin-top: 40px;
+}
+
+.song-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.song-table-header {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.song-table td,
+.song-table th {
+  padding: 12px;
+}
+
+.song-row:hover {
+  background-color: #282828; /* Hiệu ứng hover */
+}
+
+.song-row td {
+  border-bottom: 1px solid #3e3e3e;
+}

@@ -1,11 +1,15 @@
-import { useRoutes } from "react-router-dom"
-import HomePage from "../modules/UserModule/homePageLayout/HomePage"
-import UserLayout from "../layouts/UserLayout"
-import DetailArtists from "../modules/UserModule/detailArtists/DetailArtists"
-import Playlist from "../modules/UserModule/playList/Playlist"
+import { useRoutes } from "react-router-dom";
+import HomePage from "../modules/UserModule/homePageLayout/HomePage";
+import UserLayout from "../layouts/UserLayout";
+import DetailArtists from "../modules/UserModule/detailArtists/DetailArtists";
+import Playlist from "../modules/UserModule/playList/Playlist";
 
 const useRoutesElements = () => {
-    const element = useRoutes([
+  const element = useRoutes([
+    {
+      path: "",
+      element: <UserLayout />,
+      children: [
         {
             path: '',
             element: <UserLayout />,
@@ -28,3 +32,4 @@ const useRoutesElements = () => {
     return element
 }
 export default useRoutesElements
+

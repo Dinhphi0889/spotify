@@ -141,7 +141,7 @@ model Playlists {
   playlistName  String?         @db.VarChar(255)
   description   String?         @db.Text
   createDate    DateTime?       @db.DateTime(0)
-  PlaylistSongs PlaylistSongs[]
+  PlaylistSongs PlaylistSongs[] // Quan hệ với bảng PlaylistSongs
   User          User?           @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "Playlists_ibfk_1")
 
   @@index([userId], map: "userId")
