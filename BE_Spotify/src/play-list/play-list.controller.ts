@@ -1,46 +1,56 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put, ParseIntPipe, NotFoundException, Query, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Put,
+  ParseIntPipe,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { PlayListService } from './play-list.service';
-import { AddSongsToPlaylistDto, CreatePlayListDto } from './dto/create-play-list.dto';
+import {
+  AddSongsToPlaylistDto,
+  CreatePlayListDto,
+} from './dto/create-play-list.dto';
 import { UpdatePlayListDto } from './dto/update-play-list.dto';
 import { ApiBody, ApiHeader, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { CybersoftTokenGuard } from 'src/strategy/tokenCyberSoft.strategy';
+import { ApiParam } from '@nestjs/swagger';
 
 class TypeAddNewPlaylist {
   @ApiProperty()
-  userId: number
+  userId: number;
   @ApiProperty()
-  imagePath: string
+  imagePath: string;
   @ApiProperty()
-  playlistName: string
+  playlistName: string;
   @ApiProperty()
-  songsId: number
+  description: string;
   @ApiProperty()
-  description: string
-  @ApiProperty()
-  createDate: Date
-  @ApiProperty()
-  songName: string
-  @ApiProperty()
-  playlistId: number
+  createDate: Date;
 }
 
 class TypeAddSongToPlayList {
   @ApiProperty()
-  playlistId: number
+  playlistId: number;
   @ApiProperty()
-  songId: number
+  songId: number;
 }
+
 @ApiHeader({
   name: 'tokenCyberSoft',
   description: 'Nhập token cybersoft',
-  required: true
+  required: true,
 })
 @UseGuards(CybersoftTokenGuard)
 class TypeEditPlayList {
   @ApiProperty()
-  playlistName: string
+  playlistName: string;
   @ApiProperty()
-  description: string
+  description: string;
 }
 
 @ApiTags('PLAYLIST')
@@ -48,11 +58,11 @@ class TypeEditPlayList {
 export class PlayListController {
   constructor(private readonly playListService: PlayListService) { }
 
-  //Add new playlist 
+  //Add new playlist
   @ApiBody({
-    type: TypeAddNewPlaylist
+    type: TypeAddNewPlaylist,
   })
-  @Post('/add-playlist')
+  @Post('/create-playlist')
   createPlaylist(@Body() createPlayListDto: CreatePlayListDto) {
     return this.playListService.createPlaylist(createPlayListDto);
   }
@@ -72,18 +82,23 @@ export class PlayListController {
   // Get playlist of user
   @Get('/get-playlist-of-user')
   getPlaylistOfUser(@Query('id', ParseIntPipe) id: number) {
-    return this.playListService.getPlaylistOfUser(id)
+    return this.playListService.getPlaylistOfUser(id);
   }
 
   // Get song in playlist
   @Get('/get-song-in-playlist/:playlistId')
   getSongInPlaylist(@Query('playlistId', ParseIntPipe) id: number) {
-    return this.playListService.getSongInPlaylist(id)
+    return this.playListService.getSongInPlaylist(id);
+  }
+
+  @Get('get-playlist-by-id/:playlistId')
+  getPlaylistById(@Query('playlistId', ParseIntPipe) playlistId: number) {
+    return this.playListService.getPlaylistById(playlistId)
   }
 
   // Add song to playlist
   @ApiBody({
-    type: TypeAddSongToPlayList
+    type: TypeAddNewPlaylist
   })
   @Post('add-song-to-playlist')
   async addSongToPlaylist(@Body() addSongToPlaylist: AddSongsToPlaylistDto) {
@@ -92,10 +107,13 @@ export class PlayListController {
 
   // Edit Playlist
   @ApiBody({
-    type: TypeEditPlayList
+    type: TypeEditPlayList,
   })
   @Put('edit-playlist/:id')
-  editPlaylist(@Param('id') id: string, @Body() UpdatePlayListDto: UpdatePlayListDto) {
+  editPlaylist(
+    @Param('id') id: string,
+    @Body() UpdatePlayListDto: UpdatePlayListDto,
+  ) {
     return this.playListService.editPlaylist(+id, UpdatePlayListDto);
   }
 
@@ -103,5 +121,15 @@ export class PlayListController {
   @Delete('remove-playlist/:id')
   remove(@Param('id') id: string) {
     return this.playListService.remove(+id);
+  }
+
+  // Endpoint lấy chi tiết playlist
+  @ApiParam({
+    name: 'id',
+    description: 'ID của playlist cần lấy thông tin chi tiết',
+  })
+  @Get('/get-playlist-detail/:id')
+  async getPlaylistDetail(@Param('id', ParseIntPipe) id: number) {
+    return this.playListService.getPlaylistDetail(id);
   }
 }
