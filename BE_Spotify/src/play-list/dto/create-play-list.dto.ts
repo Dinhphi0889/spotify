@@ -15,16 +15,10 @@ export class CreatePlayListDto {
   imagePath: string;
   @IsString()
   playlistName: string;
-  @IsNumber()
-  songsId: number;
   @IsString()
   description: string;
   @IsDate()
   createDate: Date;
-  @IsString()
-  songName: string;
-  @IsNumber()
-  playlistId: number;
 }
 
 export class AddSongsToPlaylistDto {

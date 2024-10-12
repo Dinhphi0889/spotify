@@ -58,11 +58,17 @@ export class PlayListService {
   // get song in playlist
   async getSongInPlaylist(id: number) {
     return await this.prisma.playlistSongs.findMany({
-      where: { songId: id },
+      where: { playlistId: id },
       include: {
         Song: true,
       },
     });
+  }
+
+  async getPlaylistById(playlistId: number) {
+    return await this.prisma.playlists.findFirst({
+      where: { id: playlistId }
+    })
   }
 
   // Edit Playlist

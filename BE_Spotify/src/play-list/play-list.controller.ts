@@ -28,15 +28,9 @@ class TypeAddNewPlaylist {
   @ApiProperty()
   playlistName: string;
   @ApiProperty()
-  songsId: number;
-  @ApiProperty()
   description: string;
   @ApiProperty()
   createDate: Date;
-  @ApiProperty()
-  songName: string;
-  @ApiProperty()
-  playlistId: number;
 }
 
 class TypeAddSongToPlayList {
@@ -62,13 +56,13 @@ class TypeEditPlayList {
 @ApiTags('PLAYLIST')
 @Controller('api')
 export class PlayListController {
-  constructor(private readonly playListService: PlayListService) {}
+  constructor(private readonly playListService: PlayListService) { }
 
   //Add new playlist
   @ApiBody({
     type: TypeAddNewPlaylist,
   })
-  @Post('/add-playlist')
+  @Post('/create-playlist')
   createPlaylist(@Body() createPlayListDto: CreatePlayListDto) {
     return this.playListService.createPlaylist(createPlayListDto);
   }
@@ -95,6 +89,11 @@ export class PlayListController {
   @Get('/get-song-in-playlist/:playlistId')
   getSongInPlaylist(@Query('playlistId', ParseIntPipe) id: number) {
     return this.playListService.getSongInPlaylist(id);
+  }
+
+  @Get('get-playlist-by-id/:playlistId')
+  getPlaylistById(@Query('playlistId', ParseIntPipe) playlistId: number) {
+    return this.playListService.getPlaylistById(playlistId)
   }
 
   // Add song to playlist
