@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { TypeUserState } from "../../types/typeUserState"
 const getUserLocal = localStorage.getItem('user')
 
 const initialState = {

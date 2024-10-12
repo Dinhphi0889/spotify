@@ -13,7 +13,7 @@ export default function UserLayout() {
                     <div style={{ width: '20%' }}>
                         <Sidebar />
                     </div>
-                    <div style={{ maxWidth: '80%' }}>
+                    <div style={{ width: '80%' }}>
                         <div className='mb-28'>
                             <Header />
                         </div>

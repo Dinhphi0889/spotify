@@ -11,24 +11,25 @@ const useRoutesElements = () => {
       element: <UserLayout />,
       children: [
         {
-          path: "",
-          element: <HomePage />,
-        },
-        {
-          path: "detail-artists/:id",
-          element: <DetailArtists />,
-        },
-        {
-          path: "/playlist/:playlistId",
-          element: <Playlist />,
-        },
-        {
-          path: "/playlist/:playlistId",
-          element: <Playlist />,
-        },
-      ],
-    },
-  ]);
-  return element;
-};
-export default useRoutesElements;
+            path: '',
+            element: <UserLayout />,
+            children: [
+                {
+                    path: '',
+                    element: <HomePage />
+                },
+                {
+                    path: 'detail-artists/:id',
+                    element: <DetailArtists />
+                },
+                {
+                    path: 'play-list/:id',
+                    element: <Playlist />
+                }
+            ]
+        }
+    ])
+    return element
+}
+export default useRoutesElements
+
