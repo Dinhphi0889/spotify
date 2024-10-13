@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { TypePlaylistPost } from "../../types/typePlaylist"
 
 const initialState = {
     playLists: [],
-    playListAdd : []
+    playListAdd : [],
+    playListById: <TypePlaylistPost>{}
 }
 
 const playlistSlice = createSlice({
@@ -14,6 +16,9 @@ const playlistSlice = createSlice({
         },
         getPlaylist: (state, { payload }) => {
             state.playLists = payload
+        },
+        getPlaylistById:(state, { payload }) => {
+            state.playListById = payload
         },
     }
 })

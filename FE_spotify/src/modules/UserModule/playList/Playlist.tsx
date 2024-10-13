@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Table, Avatar, Row, Col, Space, Button, Typography } from "antd";
 import { PlayCircleOutlined, EllipsisOutlined } from "@ant-design/icons";
 import { fetchAndSetAllSongs } from "../../../apis/apiGetAllSongs";
-import { AppDispatch } from "../../../redux/store";
+import { AppDispatch, RootState } from "../../../redux/store";
 import { useAppSelector } from "../../../redux/hooks";
 import { TypeSong } from "../../../types/typeSong";
 import moment from "moment";
@@ -11,6 +11,8 @@ import { fetchAndSetSongGenre } from "../../../apis/apiGetSongGenre";
 import { TypeGenre } from "../../../types/typeGenre";
 import { TypeUser } from "../../../types/typeUser";
 import { apiGetUser } from "../../../apis/apiGetUser";
+import { getPlaylistById } from "../../../apis/apiPlayList/apiGetPlaylistById";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 
 const { Title, Text } = Typography;
 
@@ -18,21 +20,28 @@ const PlaylistComponent = () => {
   const dispatch = useDispatch<AppDispatch>();
   const user = JSON.parse(localStorage.getItem("user")!)?.user;
   const { songLists, songGenre } = useAppSelector((state) => state.song);
-  const [users, setUsers] = useState<TypeUser[]>([])
+  const { playListById } = useAppSelector((state) => state.playlist);
+  const [users, setUsers] = useState<TypeUser[]>([]);
+  const navigate = useNavigate();
+
+  const { id } = useParams();
 
   const callApiGetUser = async () => {
-      const result = await apiGetUser()
-      setUsers(Array.isArray(result) ? result : [result])
-  }
+    const result = await apiGetUser();
+    setUsers(Array.isArray(result) ? result : [result]);
+  };
   useEffect(() => {
-      callApiGetUser()
-  }, [])
+    if (!localStorage.getItem("user")) {
+      navigate("/");
+    }
+    callApiGetUser();
+  }, []);
 
   useEffect(() => {
+    dispatch(getPlaylistById(id));
     dispatch(fetchAndSetAllSongs());
     dispatch(fetchAndSetSongGenre());
-  }, [dispatch]);
-  
+  }, [id, dispatch]);
 
   const columns = [
     {
@@ -45,8 +54,10 @@ const PlaylistComponent = () => {
       dataIndex: "title",
       key: "title",
       render: (_: any, record: any) => {
-        const artist = users.find((user: TypeUser) => user.userId === record.artist)
-        
+        const artist = users.find(
+          (user: TypeUser) => user.userId === record.artist
+        );
+
         return (
           <div className="flex">
             <img
@@ -58,7 +69,9 @@ const PlaylistComponent = () => {
             <div className="pl-5">
               <div>{record.title}</div>
               <div style={{ fontSize: "14px", color: "gray" }}>
-                {artist ? artist.name : ""}
+                <Link to={`/detail-artists/${artist?.userId}`} className="hover:text-green-500">
+                  {artist ? artist.name : ""}
+                </Link>
               </div>
             </div>
           </div>
@@ -107,7 +120,7 @@ const PlaylistComponent = () => {
     action: <Button className="rounded-full">Thêm</Button>,
     description: song.description,
     image: song.songImage,
-    artist: song.userId
+    artist: song.userId,
   }));
 
   return (
@@ -133,7 +146,7 @@ const PlaylistComponent = () => {
           <Space direction="vertical">
             <Text type="secondary">Playlist</Text>
             <Title style={{ color: "white", margin: 0 }}>
-              Danh sách phát của tôi #1
+              {playListById.playlistName}
             </Title>
             <Text style={{ color: "white" }}>
               {user?.name} • {songLists.length} bài hát, tổng thời gian{" "}
@@ -164,7 +177,9 @@ const PlaylistComponent = () => {
         </Col>
       </Row>
 
-      <h1 className="text-2xl font-medium mt-10">Hãy cùng tìm nội dung cho danh sách phát của bạn</h1>
+      <h1 className="text-2xl font-medium mt-10">
+        Hãy cùng tìm nội dung cho danh sách phát của bạn
+      </h1>
 
       <Table
         columns={columns}
@@ -175,8 +190,8 @@ const PlaylistComponent = () => {
         }}
         style={{
           marginTop: "20px",
-            backgroundColor: "#121212",
-            color: "white",
+          backgroundColor: "#121212",
+          color: "white",
         }}
         rowClassName={() => "custom-row"}
       />
