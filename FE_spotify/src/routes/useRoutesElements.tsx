@@ -5,12 +5,9 @@ import DetailArtists from "../modules/UserModule/detailArtists/DetailArtists";
 import Playlist from "../modules/UserModule/playList/Playlist";
 
 const useRoutesElements = () => {
-  const element = useRoutes([
-    {
-      path: "",
-      element: <UserLayout />,
-      children: [
+    const element = useRoutes([
         {
+
             path: '',
             element: <UserLayout />,
             children: [

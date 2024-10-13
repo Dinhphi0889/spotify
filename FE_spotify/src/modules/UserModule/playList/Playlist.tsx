@@ -11,6 +11,7 @@ import { fetchAndSetSongGenre } from "../../../apis/apiGetSongGenre";
 import { TypeGenre } from "../../../types/typeGenre";
 import { TypeUser } from "../../../types/typeUser";
 import { apiGetUser } from "../../../apis/apiGetUser";
+import { useGlobalContext } from "../../../globalContext/GlobalContext";
 
 const { Title, Text } = Typography;
 
@@ -19,20 +20,21 @@ const PlaylistComponent = () => {
   const user = JSON.parse(localStorage.getItem("user")!)?.user;
   const { songLists, songGenre } = useAppSelector((state) => state.song);
   const [users, setUsers] = useState<TypeUser[]>([])
+  const { setIdMusic } = useGlobalContext()
 
   const callApiGetUser = async () => {
-      const result = await apiGetUser()
-      setUsers(Array.isArray(result) ? result : [result])
+    const result = await apiGetUser()
+    setUsers(Array.isArray(result) ? result : [result])
   }
   useEffect(() => {
-      callApiGetUser()
+    callApiGetUser()
   }, [])
 
   useEffect(() => {
     dispatch(fetchAndSetAllSongs());
     dispatch(fetchAndSetSongGenre());
   }, [dispatch]);
-  
+
 
   const columns = [
     {
@@ -46,7 +48,7 @@ const PlaylistComponent = () => {
       key: "title",
       render: (_: any, record: any) => {
         const artist = users.find((user: TypeUser) => user.userId === record.artist)
-        
+
         return (
           <div className="flex">
             <img
@@ -175,8 +177,8 @@ const PlaylistComponent = () => {
         }}
         style={{
           marginTop: "20px",
-            backgroundColor: "#121212",
-            color: "white",
+          backgroundColor: "#121212",
+          color: "white",
         }}
         rowClassName={() => "custom-row"}
       />

@@ -29,8 +29,6 @@ class TypeAddNewPlaylist {
   playlistName: string;
   @ApiProperty()
   description: string;
-  @ApiProperty()
-  createDate: Date;
 }
 
 class TypeAddSongToPlayList {
