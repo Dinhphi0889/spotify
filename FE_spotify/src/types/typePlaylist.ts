@@ -2,12 +2,9 @@
 export interface TypePlaylistPost {
     userId: number;          
     imagePath: string;       
-    playlistName: string;    
-    songsId: number;         
+    playlistName: string;            
     description: string;     
-    createDate: string;     
-    songName: string;        
-    playlistId: number;      
+    createDate: Date;       
 }
   
 export interface Playlist {
