@@ -17,8 +17,6 @@ export class CreatePlayListDto {
   playlistName: string;
   @IsString()
   description: string;
-  @IsDate()
-  createDate: Date;
 }
 
 export class AddSongsToPlaylistDto {

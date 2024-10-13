@@ -12,13 +12,14 @@ export class PlayListService {
 
   // add new song to playlist
   createPlaylist(createPlayListDto: CreatePlayListDto) {
+    const date = new Date()
     return this.prisma.playlists.create({
       data: {
         userId: createPlayListDto.userId,
         imagePath: createPlayListDto.imagePath,
         playlistName: createPlayListDto.playlistName,
         description: createPlayListDto.description,
-        createDate: createPlayListDto.createDate,
+        createDate: date,
       },
     });
   }

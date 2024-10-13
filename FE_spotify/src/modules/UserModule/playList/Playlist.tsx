@@ -13,6 +13,7 @@ import { TypeUser } from "../../../types/typeUser";
 import { apiGetUser } from "../../../apis/apiGetUser";
 import { getPlaylistById } from "../../../apis/apiPlayList/apiGetPlaylistById";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { useGlobalContext } from "../../../globalContext/GlobalContext";
 
 const { Title, Text } = Typography;
 
@@ -25,23 +26,32 @@ const PlaylistComponent = () => {
   const navigate = useNavigate();
 
   const { id } = useParams();
+  const [users, setUsers] = useState<TypeUser[]>([])
+  const { setIdMusic } = useGlobalContext()
 
   const callApiGetUser = async () => {
     const result = await apiGetUser();
     setUsers(Array.isArray(result) ? result : [result]);
   };
+    const result = await apiGetUser()
+    setUsers(Array.isArray(result) ? result : [result])
+  }
   useEffect(() => {
     if (!localStorage.getItem("user")) {
       navigate("/");
     }
     callApiGetUser();
   }, []);
+    callApiGetUser()
+  }, [])
 
   useEffect(() => {
     dispatch(getPlaylistById(id));
     dispatch(fetchAndSetAllSongs());
     dispatch(fetchAndSetSongGenre());
   }, [id, dispatch]);
+  }, [dispatch]);
+
 
   const columns = [
     {
@@ -57,6 +67,8 @@ const PlaylistComponent = () => {
         const artist = users.find(
           (user: TypeUser) => user.userId === record.artist
         );
+
+        const artist = users.find((user: TypeUser) => user.userId === record.artist)
 
         return (
           <div className="flex">
