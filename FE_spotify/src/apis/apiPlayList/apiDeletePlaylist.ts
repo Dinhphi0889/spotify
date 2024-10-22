@@ -2,9 +2,9 @@ import api from "./../apiUtil";
 import { playlistAction } from "../../redux/slice/playlist.slice";
 import { AppDispatch } from './../../redux/store';
 
-export const getPlaylistById = (data: any) => async (dispatch: AppDispatch) => {
+export const deletePlaylist = (data: any) => async (dispatch: AppDispatch) => {
     try {
-        const response = await api.get(`/get-playlist-detail/${data}`);       
+        const response = await api.delete(`/remove-playlist/${data}`);       
         dispatch(playlistAction.getPlaylistDetailById(response.data.content));
         return response.data.content;
     } catch (error) {
