@@ -1,13 +1,21 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import "./sidebar.css";
-import { Avatar, Button, Col, Popover, Row, Space, Typography } from "antd";
+import {
+  Avatar,
+  Button,
+  Col,
+  Popover,
+  Row,
+  Space,
+  Typography,
+} from "antd";
 import { useModal } from "../../../globalContext/ModalContext";
 import { useAppSelector } from "../../../redux/hooks";
 import { TypePlaylistPost } from "../../../types/typePlaylist";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
 import { createPlayList } from "../../../apis/apiPlayList/apiCreatePlayList";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getPlaylistByUser } from "../../../apis/apiPlayList/apiGetPlayListByUser";
 const { Title, Text } = Typography;
 
@@ -17,29 +25,28 @@ export default function Sidebar() {
   const { currentUser } = useAppSelector((state) => state.currentUser);
   const dispatch = useDispatch<AppDispatch>();
   const playlists = useAppSelector((state) => state.playlist.playLists);
+  const playListDetailById = useAppSelector(
+    (state) => state.playlist.playListDetailById
+  );
   const playlistCount = playlists.length;
-
-  console.log(playlists);
+  const [currentId, setCurrentId] = useState(null);
 
   useEffect(() => {
     dispatch(getPlaylistByUser(currentUser?.user.userId));
-  }, []);
+  }, [playListDetailById, currentUser]);
 
   const handleCreatePlayList = async () => {
     const newPlaylist: TypePlaylistPost = {
       userId: currentUser.user.userId,
-      imagePath: "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/de355201-269a-4f25-8aa4-3bd21e2a5117/df6eoa8-c88e8284-3f62-46dc-b090-69883eeb607e.png/v1/fit/w_828,h_496/music_note_symbol___outline_by_orxngecrxsh_df6eoa8-414w-2x.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MjQ1NyIsInBhdGgiOiJcL2ZcL2RlMzU1MjAxLTI2OWEtNGYyNS04YWE0LTNiZDIxZTJhNTExN1wvZGY2ZW9hOC1jODhlODI4NC0zZjYyLTQ2ZGMtYjA5MC02OTg4M2VlYjYwN2UucG5nIiwid2lkdGgiOiI8PTQwOTYifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.aaUv-5uBzZL54p0zvxi07UVyU0elMO4zqbww1wc2B9Q",
+      imagePath:
+        "https://images.macrumors.com/t/hi1_a2IdFGRGMsJ0x31SdD_IcRk=/1600x/article-new/2018/05/apple-music-note.jpg",
       playlistName: `Danh sách phát của tôi #${playlistCount + 1}`,
-      songsId: 0,
       description: "Your description here",
-      createDate: new Date().toISOString(),
-      songName: "",
-      playlistId: Date.now(),
     };
 
     const result = await dispatch(createPlayList(newPlaylist));
     if (result) {
-      navigate(`/play-list/${Date.now()}`);
+      navigate(`/play-list/${result.id}`);
       dispatch(getPlaylistByUser(currentUser?.user.userId));
     } else {
       console.log("Failed to create playlist.");
@@ -50,19 +57,20 @@ export default function Sidebar() {
     <div className="sidebar mt-3 pl-3 mr-2" style={{ width: "300px" }}>
       <div className="sidebar-top mb-2">
         <button className="logo-spotify">
-          <i className="fa-brands fa-spotify mr-1"></i>
+          <i className="fa-brands fa-spotify mr-2"></i>
           <span>Spotify</span>
         </button>
-        <NavLink
-          to={"/"}
-          className={({ isActive }) =>
-            isActive ? "my-active btn-home" : "btn-home"
-          }
-        >
-          <i className="fa-solid fa-house"></i>
-          Home
-        </NavLink>
-        <NavLink
+        <div className="flex justify-between items-center library mt-7">
+            <NavLink
+              to="/"
+              className="flex items-center text-white no-underline hover:text-gray-400"
+              style={{ cursor: "pointer" }}
+            >
+              <i className="fa-solid fa-house mr-2"></i>
+              <span>Home</span>
+            </NavLink>
+            </div>
+        {/* <NavLink
           to={"search"}
           className={({ isActive }) =>
             isActive ? "my-active btn-search" : "btn-search"
@@ -70,10 +78,21 @@ export default function Sidebar() {
         >
           <i className="fa-solid fa-magnifying-glass"></i>
           Search
-        </NavLink>
+        </NavLink> */}
       </div>
       <div className="sidebar-bottom">
         <div>
+          <div className="flex justify-between items-center library mb-7">
+            <NavLink
+              to="/genre"
+              className="flex items-center text-white no-underline hover:text-gray-400"
+              style={{ cursor: "pointer" }}
+            >
+              <i className="fa-solid fa-list mr-2"></i>
+              <span>Phân loại</span>
+            </NavLink>
+          </div>
+
           <div className="flex justify-between items-center library mb-7">
             <div>
               <i className="fa-solid fa-lines-leaning"></i>Your Library
@@ -82,6 +101,7 @@ export default function Sidebar() {
               <i className="fa-solid fa-plus"></i>
             </button>
           </div>
+
           <div className="create-playlist ">
             {!currentUser ? (
               <div>
@@ -115,13 +135,25 @@ export default function Sidebar() {
               </div>
             ) : (
               <div>
-                <p className="font-bold mt-2 mb-4">Your Playlists</p>
+                <p className="font-bold mt-2 mb-4 ml-5 text-green-600">
+                  Your Playlists
+                </p>
                 <ul>
-                  {playlists.map((playlist:any) => (
+                  {playlists.map((playlist: any) => (
                     <li
+                      style={{
+                        backgroundColor:
+                          currentId === playlist.id
+                            ? "rgba(255, 255, 255, 0.1)"
+                            : "transparent", // Change the background color when the id matches
+                        padding: "3px 10px",
+                        borderRadius: "5px", // Add some rounding to the corners if desired
+                        cursor: "pointer", // Change the cursor to pointer on hover
+                      }}
                       key={playlist.id}
                       onClick={() => {
                         navigate(`./play-list/${playlist.id}`);
+                        setCurrentId(playlist.id);
                       }}
                     >
                       <Row align="middle" style={{ marginBottom: "10px" }}>
@@ -129,7 +161,7 @@ export default function Sidebar() {
                           <Avatar
                             shape="square"
                             size={45}
-                            src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/de355201-269a-4f25-8aa4-3bd21e2a5117/df6eoa8-c88e8284-3f62-46dc-b090-69883eeb607e.png/v1/fit/w_828,h_496/music_note_symbol___outline_by_orxngecrxsh_df6eoa8-414w-2x.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MjQ1NyIsInBhdGgiOiJcL2ZcL2RlMzU1MjAxLTI2OWEtNGYyNS04YWE0LTNiZDIxZTJhNTExN1wvZGY2ZW9hOC1jODhlODI4NC0zZjYyLTQ2ZGMtYjA5MC02OTg4M2VlYjYwN2UucG5nIiwid2lkdGgiOiI8PTQwOTYifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.aaUv-5uBzZL54p0zvxi07UVyU0elMO4zqbww1wc2B9Q"
+                            src={playlist.imagePath}
                             alt="Playlist cover"
                           />
                         </Col>

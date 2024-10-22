@@ -9,7 +9,7 @@ import { TypeComment } from '../../../types/typeComment';
 import { apiGetComment } from '../../../apis/apiGetComment';
 
 export default function PlayMusic() {
-    const [isPlaying, setIsPlaying] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(true);
     const { idMusic } = useGlobalContext()
     const { nameArtists } = useGlobalContext()
     const [duration, setDuration] = useState(0);
