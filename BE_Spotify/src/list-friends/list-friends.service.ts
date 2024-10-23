@@ -37,7 +37,12 @@ export class ListFriendsService {
   }
 
   // delete friends
-  remove(id: number) {
-    return this.prisma.listFriends.delete({ where: { id } });
+  remove(removeFriend) {
+    return this.prisma.listFriends.deleteMany({
+      where: {
+        userId: removeFriend.userId,
+        friendId: removeFriend.friendId
+      }
+    });
   }
 }

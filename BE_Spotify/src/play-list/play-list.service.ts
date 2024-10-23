@@ -30,7 +30,7 @@ export class PlayListService {
     const playlist = await this.prisma.playlists.findUnique({
       where: { id: playlistId },
     });
-    
+
     if (!playlist) {
       throw new NotFoundException(`Playlist with ID ${playlistId} not found`);
     }
@@ -85,7 +85,12 @@ export class PlayListService {
   }
 
   // Delete Playlist
-  remove(id: number) {
+  async remove(id: number) {
+    await this.prisma.playlistSongs.deleteMany({
+      where: {
+        playlistId: id
+      }
+    })
     return this.prisma.playlists.delete({
       where: {
         id,

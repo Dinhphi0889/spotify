@@ -1,7 +1,7 @@
 export type ResponseApi<T> = {
-    statusCode: number;
-    message: string;
-    content: T;
-    dateTime: string;
-    messageConstants: any;
-  };
+  statusCode: number;
+  message: string;
+  content: T;
+  dateTime: string;
+  messageConstants: any;
+};

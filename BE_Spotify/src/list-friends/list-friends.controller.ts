@@ -15,7 +15,12 @@ class TypeAddFriends {
   @ApiProperty()
   roomChat: string
 }
-
+class TypeRemoveFriend {
+  @ApiProperty()
+  userId: number
+  @ApiProperty()
+  friendId: number
+}
 // Input token user
 @UseGuards(CheckTokenUser)
 @ApiHeader({
@@ -59,9 +64,12 @@ export class ListFriendsController {
   }
 
   // Delete friends
-  @Roles(Role.Admin)
-  @Delete('/delete-friends/:id')
-  remove(@Param('id') id: string) {
-    return this.listFriendsService.remove(+id);
+  // @Roles(Role.Admin)
+  @ApiBody({
+    type: TypeRemoveFriend
+  })
+  @Delete('/delete-friends/')
+  remove(@Body() removeFriend: TypeRemoveFriend) {
+    return this.listFriendsService.remove(+removeFriend);
   }
 }
