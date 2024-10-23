@@ -43,6 +43,9 @@
     justify-content: space-between;
 }
 
+.detail-artists .song-artists .btn-play{
+    background-color: transparent;
+}
 .detail-artists .song-artists .btn-play i {
     color: rgb(59, 243, 59);
     font-size: 3rem;

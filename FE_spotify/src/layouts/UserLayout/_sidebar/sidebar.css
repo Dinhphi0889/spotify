@@ -56,7 +56,7 @@
   background-color: #1f1f1f;
   border-radius: 10px;
   margin: 0 10px 40px;
-  padding: 10px 20px;
+  padding: 10px 10px;
   line-height: 30px;
 }
 
@@ -107,4 +107,16 @@
 
 .playlist-description {
   font-size: 0.85rem;
+}
+
+.btn-createPlaylist:hover{
+  background-color: green !important;
+  color: white !important;
+}
+
+.btn-createPlaylist{
+  background-color: white !important;
+  color: green !important;
+  border: none;
+  transition: all 0.3s;
 }
