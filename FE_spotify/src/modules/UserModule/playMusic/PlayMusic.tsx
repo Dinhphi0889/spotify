@@ -7,6 +7,8 @@ import ReactPlayer from 'react-player';
 import { Button, Drawer, Input } from 'antd';
 import { TypeComment } from '../../../types/typeComment';
 import { apiGetComment } from '../../../apis/apiGetComment';
+import { CloseOutlined } from '@ant-design/icons';
+
 
 export default function PlayMusic() {
     const [isPlaying, setIsPlaying] = useState(true);
@@ -48,28 +50,69 @@ export default function PlayMusic() {
     const handleDrawerComment = () => {
         return (
             <div>
-                <Drawer title="Comment" onClose={onClose} open={open}>
-                    {comment.map((item: TypeComment) => {
-                        const dateComment = new Date(item.discussDate)
+                <Drawer title="Comment"  style={{ backgroundColor: 'black', color: 'white' }}  closeIcon={<CloseOutlined style={{ color: 'white' }} />}   onClose={onClose}  open={open}>
+                    <div>
+                    {comment.map((item: TypeComment, index: number) => {
+                        const dateComment = new Date(item.discussDate);
                         return (
-                            <div className='mb-2'>
-                                <span className='text-md font-medium'>{item.User.name}: </span>
-                                <span>{item.content}</span>
-                                <p>{dateComment.toLocaleTimeString('vn-VN') + ' - ' + dateComment.toLocaleDateString('vn-VN')}</p>
-                                <div className='like-comment flex justify-around w-3/4 mb-3'>
-                                    <button><i className="fa-solid fa-thumbs-up mr-1"></i>Like</button>
-                                    <button><i className="fa-solid fa-comment mr-1"></i>Comment</button>
+                            <div className='comment-item mb-4' key={index}>
+                                <div className='flex items-start'>
+                                    {/* Avatar */}
+                                    <img src={item.User.avatar} alt="Avatar" className='w-10 h-10 rounded-full mr-3' />
+
+                                    <div className='comment-content'>
+                                        {/* User name and comment content */}
+                                        <div className='bg-white p-3 rounded-2xl mb-1'>
+                                            <span className='text-md font-medium text-black'>{item.User.name}</span>
+                                            <br />
+                                            <span className='ml-2 text-black'>{item.content}</span>
+                                        </div>
+                                        {/* Time */}
+                                        <p className='text-sm text-gray-500'>
+                                            {dateComment.toLocaleTimeString('vn-VN') + ' - ' + dateComment.toLocaleDateString('vn-VN')}
+                                        </p>
+                                        {/* Actions: Like, Comment */}
+                                        <div className='like-comment flex space-x-4'>
+                                            <button className='text-blue-600 hover:text-blue-800'>
+                                                <i className="fa-solid fa-thumbs-up mr-1"></i>Like
+                                            </button>
+                                            <button className='text-blue-600 hover:text-blue-800'>
+                                                <i className="fa-solid fa-comment mr-1"></i>Reply
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        )
+                        );
                     })}
-                    <div className='mt-5'>
-                        <Input placeholder='Write Comment'></Input>
+                    <div className='flex items-center'>
+
+                        {/* Comment input and Post button container */}
+                        <div className='flex items-center bg-white rounded-2xl p-2'>
+                            {/* Comment input */}
+                            <div className='flex-1'>
+                                <Input.TextArea
+                                    placeholder='Write a comment...'
+                                    rows={1}
+                                    className='resize-none bg-transparent border-none focus:bg-transparent focus:ring-0 focus:outline-none'
+                                    autoSize={{ minRows: 1, maxRows: 10 }}
+                                    style={{ width: '260px', height: '90px' }}
+                                />
+                            </div>
+
+                            {/* Post button with icon */}
+                            <button
+                                className='ml-2 text-black px-4 py-1 rounded-full hover:text-gray-400 transition-all duration-150 flex items-center'
+                            >
+                                <i className="fa-solid fa-paper-plane mr-1"></i> {/* Icon for paper plane */}
+                            </button>
+                        </div>
                     </div>
+</div>
                 </Drawer>
             </div>
-        )
-    }
+        );
+    };
 
     const formatTime = (time: number) => {
         const minutes = Math.floor(time / 60);
