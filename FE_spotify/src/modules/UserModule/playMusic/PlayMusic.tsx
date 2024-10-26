@@ -58,7 +58,7 @@ export default function PlayMusic() {
                             <div className='comment-item mb-4' key={index}>
                                 <div className='flex items-start'>
                                     {/* Avatar */}
-                                    <img src={item.User.avatar} alt="Avatar" className='w-10 h-10 rounded-full mr-3' />
+                                    <img style={{ objectFit: 'cover' }} src={item.User.avatar !== 'none' ? item.User.avatar : 'https://inkythuatso.com/uploads/thumbnails/800/2023/03/6-anh-dai-dien-trang-inkythuatso-03-15-26-36.jpg'} alt="Avatar" className='w-10 h-10 rounded-full mr-3' />
 
                                     <div className='comment-content'>
                                         {/* User name and comment content */}
