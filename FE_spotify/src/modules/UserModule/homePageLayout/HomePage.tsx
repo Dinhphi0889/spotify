@@ -46,7 +46,20 @@ export default function HomePage() {
                 <a className='text-xl font-bold'>Popular artists</a>
             </div>
             <div className='artists'>
-                {renderArtists()}
+                {/* {renderArtists()} */}
+                <Card
+                    className='items-artists'
+                    hoverable
+                    style={{ width: 200 }}
+                    cover=
+                    {
+                        <img
+                            className='img-artists' alt="example" src='https://genk.mediacdn.vn/139269124445442048/2024/6/1/photo-1-17168606131071257137350-1717278776106716631383.jpg' />
+                    }
+                >
+                    <Meta
+                        title={'Sơn Tùng'} description={'Single '} />
+                </Card>
             </div>
             {/* <div className='list-friend fixed bottom-5 right-10'>
                 <ListFriend />
