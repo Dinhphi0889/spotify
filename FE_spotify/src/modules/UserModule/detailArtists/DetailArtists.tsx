@@ -157,10 +157,18 @@ export default function DetailArtists() {
   return (
     <section className="detail-artists h-100">
       <div className="banner-artists">
-        <img className="img-banner" src={dataUser?.banner}></img>
+        <img className="img-banner" src='https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg'
+        // {dataUser?.banner}
+        ></img>
         <div className="info-artists">
-          <p className="name-artists">{dataUser?.name}</p>
-          <p className="viewer">{handlerTotalViewer()} Viewer</p>
+          <p className="name-artists">
+            {/* {dataUser?.name} */}
+            Tên ca sĩ
+            </p>
+          <p className="viewer">
+            {/* {handlerTotalViewer()} */}
+            1,000,000
+             Viewer</p>
         </div>
       </div>
 
@@ -212,7 +220,91 @@ export default function DetailArtists() {
           <h1 className="tittle-list-song mb-3 text-white">Popular</h1>
           <div>
             <table className="table-auto border-separate border-spacing-x-20">
-              <tbody className="text-white">{renderTableSong()}</tbody>
+              <tbody className="text-white">
+                {/* {renderTableSong()} */}
+                <>
+            <button
+              className="mb-3"
+              onClick={() => {
+                handlerGetIdMusic(13
+                  // itemSong.songId
+                );
+              }}
+            >
+              <tr key='13'
+              // {itemSong.songId}
+              >
+                <td>
+                  {/* {index + 1} */}
+                  1
+                  </td>
+                <td>
+                  <img
+                    style={{
+                      width: "70px",
+                      height: "50px",
+                    }}
+                    src='https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg'
+                    // {itemSong.songImage}
+                  />
+                </td>
+                <td>
+                  {/* {itemSong.songName} */}
+                  Tên bài hát 1
+                  </td>
+                <td>
+                  {/* {itemSong.viewer} */}
+                  1,000,000
+                  </td>
+                <td>
+                  {/* {itemSong.duration} */}
+                  4:33
+                  </td>
+              </tr>
+            </button>
+          </>
+          <>
+            <button
+              className="mb-3"
+              onClick={() => {
+                handlerGetIdMusic(14
+                  // itemSong.songId
+                );
+              }}
+            >
+              <tr key='14'
+              // {itemSong.songId}
+              >
+                <td>
+                  {/* {index + 1} */}
+                  2
+                  </td>
+                <td>
+                  <img
+                    style={{
+                      width: "70px",
+                      height: "50px",
+                    }}
+                    src='https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg'
+                    // {itemSong.songImage}
+                  />
+                </td>
+                <td>
+                  {/* {itemSong.songName} */}
+                  Tên bài hát 2
+                  </td>
+                <td>
+                  {/* {itemSong.viewer} */}
+                  1,000,000
+                  </td>
+                <td>
+                  {/* {itemSong.duration} */}
+                  4:33
+                  </td>
+              </tr>
+            </button>
+          </>
+                </tbody>
             </table>
           </div>
         </div>

@@ -47,19 +47,37 @@ export default function HomePage() {
             </div>
             <div className='artists'>
                 {/* {renderArtists()} */}
-                <Card
-                    className='items-artists'
-                    hoverable
-                    style={{ width: 200 }}
-                    cover=
-                    {
-                        <img
-                            className='img-artists' alt="example" src='https://genk.mediacdn.vn/139269124445442048/2024/6/1/photo-1-17168606131071257137350-1717278776106716631383.jpg' />
-                    }
-                >
-                    <Meta
-                        title={'Sơn Tùng'} description={'Single '} />
-                </Card>
+                <Link key='1' to={`/detail-artists/1`}>
+                        <Card
+                            className='items-artists'
+                            hoverable
+                            style={{ width: 200 }}
+                            cover=
+                            {
+                                <img
+                                    className='img-artists' alt="example" src='https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg' />
+                            }
+                        >
+                            <Meta
+                                title='Ca sĩ 1' description='Singer' />
+                        </Card>
+                    </Link>
+                    <Link key='2' to={`/detail-artists/2`}>
+                        <Card
+                            className='items-artists'
+                            hoverable
+                            style={{ width: 200 }}
+                            cover=
+                            {
+                                <img
+                                    className='img-artists' alt="example" src='https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg' />
+                            }
+                        >
+                            <Meta
+                                title='Ca sĩ 2' description='Singer' />
+                        </Card>
+                    </Link>
+              
             </div>
             {/* <div className='list-friend fixed bottom-5 right-10'>
                 <ListFriend />

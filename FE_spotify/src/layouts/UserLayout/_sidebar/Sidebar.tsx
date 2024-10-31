@@ -24,7 +24,8 @@ export default function Sidebar() {
   const navigate = useNavigate();
   const { currentUser } = useAppSelector((state) => state.currentUser);
   const dispatch = useDispatch<AppDispatch>();
-  const playlists = useAppSelector((state) => state.playlist.playLists);
+  // const playlists = useAppSelector((state) => state.playlist.playLists);
+  const playlists=[{'id':1},{'id':2},{'id':3}];
   const playListDetailById = useAppSelector(
     (state) => state.playlist.playListDetailById
   );
@@ -161,7 +162,9 @@ export default function Sidebar() {
                           <Avatar
                             shape="square"
                             size={45}
-                            src={playlist.imagePath}
+                            src=
+                            // {playlist.imagePath}
+                            'https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg'
                             alt="Playlist cover"
                           />
                         </Col>
@@ -176,7 +179,8 @@ export default function Sidebar() {
                                 lineHeight: "0.5",
                               }}
                             >
-                              {playlist.playlistName}
+                              {/* {playlist.playlistName} */}
+                              Tên play list
                             </Title>
                             <Text
                               style={{
@@ -186,7 +190,9 @@ export default function Sidebar() {
                                 lineHeight: "1",
                               }}
                             >
-                              Danh sách phát • {currentUser.user?.name}
+                              Danh sách phát • 
+                              {/* {currentUser.user?.name} */}
+                              Tên người dùng
                             </Text>
                           </Space>
                         </Col>

@@ -193,11 +193,10 @@ const ListFriend: React.FC = () => {
           <>
             <div
               key={index}
-              className={`message-item my-2 p-2 max-w-xs rounded-lg w-3/6 ${
-                message.idSender === currentUser.user.userId
-                  ? "ml-auto bg-blue-500 text-white"
-                  : "mr-auto bg-white text-black"
-              }`}
+              className={`message-item my-2 p-2 max-w-xs rounded-lg w-3/6 ${message.idSender === currentUser.user.userId
+                ? "ml-auto bg-blue-500 text-white"
+                : "mr-auto bg-white text-black"
+                }`}
             >
               {message.contentMess}
               <p className="contentMessage text-xs mt-2">{date}</p>
@@ -228,7 +227,43 @@ const ListFriend: React.FC = () => {
           theme="dark"
         />
         <Drawer title="List Friend" onClose={onClose} open={open} width={250}>
-          {renderListFriend()}
+          {/* {renderListFriend()} */}
+          <List>
+            <List.Item>
+              <List.Item.Meta
+                avatar={
+                  <Avatar src='https://inkythuatso.com/uploads/thumbnails/800/2023/03/6-anh-dai-dien-trang-inkythuatso-03-15-26-36.jpg' />
+                }
+                title={
+                  <button
+                    onClick={() => {
+                      // showDrawer(item);
+                    }}
+                    className="font-medium"
+                  >
+                    Nguyễn Văn A
+                  </button>
+                }
+              />
+            </List.Item>
+            <List.Item>
+              <List.Item.Meta
+                avatar={
+                  <Avatar src='https://inkythuatso.com/uploads/thumbnails/800/2023/03/6-anh-dai-dien-trang-inkythuatso-03-15-26-36.jpg' />
+                }
+                title={
+                  <button
+                    onClick={() => {
+                      // showDrawer(item);
+                    }}
+                    className="font-medium"
+                  >
+                    Nguyễn Văn B
+                  </button>
+                }
+              />
+            </List.Item>
+          </List>
         </Drawer>
 
         {chatWith && openMessageBox && (

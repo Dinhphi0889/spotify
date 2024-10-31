@@ -32,68 +32,20 @@ export default function Genre() {
     <div className="genre-page">
       <h1 className="genre-title">Genres All</h1>
       <div className="genre-grid">
-        {/* {renderGenre()} */}
+        {/* Example of a hardcoded genre box */}
         <div
-          // key={genre.genreId}
-          className={`genre-box color-${0 % 10}`}
+          key='1' // Ensure unique keys for each item in a list
+          className={`genre-box color-${0 % 10}`} // Make sure the color index logic is correct
+          onClick={() => navigate(`/genre/1`)} // Define what happens when this is clicked
         >
-          {'Rock'}
+          Genre 1
         </div>
         <div
-          // key={genre.genreId}
-          className={`genre-box color-${1 % 10}`}
-
+          key='2' // Ensure unique keys for each item in a list
+          className={`genre-box color-${1 % 10}`} // Make sure the color index logic is correct
+          onClick={() => navigate(`/genre/2`)} // Define what happens when this is clicked
         >
-          {'Pop'}
-        </div>
-        <div
-          // key={genre.genreId}
-          className={`genre-box color-${2 % 10}`}
-
-        >
-          {'Pop'}
-        </div>
-        <div
-          // key={genre.genreId}
-          className={`genre-box color-${3 % 10}`}
-
-        >
-          {'Pop'}
-        </div>
-        <div
-          // key={genre.genreId}
-          className={`genre-box color-${4 % 10}`}
-
-        >
-          {'Pop'}
-        </div>
-        <div
-          // key={genre.genreId}
-          className={`genre-box color-${5 % 10}`}
-
-        >
-          {'Pop'}
-        </div>
-        <div
-          // key={genre.genreId}
-          className={`genre-box color-${6 % 10}`}
-
-        >
-          {'Pop'}
-        </div>
-        <div
-          // key={genre.genreId}
-          className={`genre-box color-${7 % 10}`}
-
-        >
-          {'Pop'}
-        </div>
-        <div
-          // key={genre.genreId}
-          className={`genre-box color-${8 % 10}`}
-
-        >
-          {'Pop'}
+          Genre 2
         </div>
       </div>
     </div>

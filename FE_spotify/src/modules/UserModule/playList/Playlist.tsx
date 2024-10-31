@@ -189,6 +189,81 @@ const PlaylistComponent = () => {
     </Menu>
   );
 
+  // const columns = [
+  //   {
+  //     title: "#",
+  //     dataIndex: "number",
+  //     key: "number",
+  //     width: "5%",
+  //   },
+  //   {
+  //     title: "Tiêu đề",
+  //     dataIndex: "title",
+  //     key: "title",
+  //     width: "40%",
+  //     render: (_: any, record: any) => {
+  //       const artist = users.find(
+  //         (user: TypeUser) => user.userId === record.artist
+  //       );
+
+  //       return (
+  //         <div className="flex">
+  //           <img
+  //             src={record.image}
+  //             alt={record.title}
+  //             style={{ width: "65px", height: "50px" }}
+  //           />
+
+  //           <div className="pl-5">
+  //             <div>{record.title}</div>
+  //             <div style={{ fontSize: "14px", color: "gray" }}>
+  //               <Link
+  //                 to={`/detail-artists/${artist?.userId}`}
+  //                 className="hover:text-green-500"
+  //               >
+  //                 {artist ? artist.name : ""}
+  //               </Link>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       );
+  //     },
+  //   },
+  //   {
+  //     title: "Thể loại",
+  //     dataIndex: "genre",
+  //     key: "genre",
+  //     render: (_: any, record: any) => {
+  //       const genreItem = songGenre.find(
+  //         (genre: TypeGenre) => genre.genreId == record.genre
+  //       ) as TypeGenre | undefined;
+  //       return genreItem ? genreItem.nameGenre : "Unknown";
+  //     },
+  //     width: "20%",
+  //   },
+  //   {
+  //     title: "Ngày thêm",
+  //     dataIndex: "addedDate",
+  //     key: "addedDate",
+  //     render: (_: any, record: any) => {
+  //       const formattedDate = moment(record.date).format("DD/MM/YYYY");
+  //       return <span>{formattedDate}</span>;
+  //     },
+  //     width: "15%",
+  //   },
+  //   {
+  //     title: <ClockCircleOutlined />,
+  //     dataIndex: "duration",
+  //     key: "duration",
+  //     width: "10%",
+  //   },
+  //   {
+  //     dataIndex: "action",
+  //     key: "action",
+  //     width: "10%",
+  //   },
+  // ];
+
   const columns = [
     {
       title: "#",
@@ -209,19 +284,19 @@ const PlaylistComponent = () => {
         return (
           <div className="flex">
             <img
-              src={record.image}
-              alt={record.title}
+              src='https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg'
+              alt='title'
               style={{ width: "65px", height: "50px" }}
             />
 
             <div className="pl-5">
-              <div>{record.title}</div>
+              <div>Tên bài hát</div>
               <div style={{ fontSize: "14px", color: "gray" }}>
                 <Link
-                  to={`/detail-artists/${artist?.userId}`}
+                  to={`/detail-artists/1`}
                   className="hover:text-green-500"
                 >
-                  {artist ? artist.name : ""}
+                 Tên ca sĩ
                 </Link>
               </div>
             </div>
@@ -237,7 +312,8 @@ const PlaylistComponent = () => {
         const genreItem = songGenre.find(
           (genre: TypeGenre) => genre.genreId == record.genre
         ) as TypeGenre | undefined;
-        return genreItem ? genreItem.nameGenre : "Unknown";
+        // return genreItem ? genreItem.nameGenre : "Unknown";
+        return "Tên thể loại nhạc"
       },
       width: "20%",
     },
@@ -246,8 +322,8 @@ const PlaylistComponent = () => {
       dataIndex: "addedDate",
       key: "addedDate",
       render: (_: any, record: any) => {
-        const formattedDate = moment(record.date).format("DD/MM/YYYY");
-        return <span>{formattedDate}</span>;
+        // const formattedDate = moment(record.date).format("DD/MM/YYYY");
+        return <span>31/10/2024</span>;
       },
       width: "15%",
     },
@@ -263,7 +339,6 @@ const PlaylistComponent = () => {
       width: "10%",
     },
   ];
-
   const existingSongIds = playListDetailById?.PlaylistSongs?.map(
     (playlistSong) => playlistSong.songId
   );
@@ -388,6 +463,233 @@ const PlaylistComponent = () => {
 
   const formattedDuration = formatDuration(totalDuration);
 
+  // return (
+  //   <div
+  //     style={{
+  //       backgroundColor: "#0f1a1a",
+  //       padding: "20px",
+  //       borderRadius: "10px",
+  //       color: "white",
+  //       width: "100%",
+  //     }}
+  //   >
+  //     <Row gutter={16}>
+  //       <Col span={6}>
+  //         <Avatar
+  //           shape="square"
+  //           size={200}
+  //           src={playListDetailById.imagePath}
+  //           alt="Playlist cover"
+  //         />
+  //       </Col>
+  //       <Col span={18}>
+  //         <Space direction="vertical">
+  //           <Text type="secondary">Playlist</Text>
+  //           <Title style={{ color: "white", margin: 0 }}>
+  //             {playListDetailById.playlistName}
+  //           </Title>
+  //           <Text style={{ color: "white", fontSize: "16px" }}>
+  //             {user?.name} • {playListDetailById.PlaylistSongs?.length} bài hát,
+  //             {formattedDuration}
+  //           </Text>
+  //         </Space>
+  //       </Col>
+  //     </Row>
+
+  //     <Row style={{ marginTop: "20px" }} align="middle">
+  //       <Col>
+  //         <Button
+  //           type="primary"
+  //           shape="circle"
+  //           icon={<PlayCircleOutlined />}
+  //           size="large"
+  //           onClick={handlePlayPlaylist}
+  //           style={{ backgroundColor: "#1db954", borderColor: "#1db954" }}
+  //         />
+  //       </Col>
+  //       <Col>
+  //         <Dropdown overlay={menu} trigger={["click"]}>
+  //           <Button
+  //             type="text"
+  //             shape="circle"
+  //             icon={<EllipsisOutlined />}
+  //             size="large"
+  //             style={{ marginLeft: "10px", color: "white" }}
+  //           />
+  //         </Dropdown>
+  //       </Col>
+  //     </Row>
+
+  //     {playListDetailById.PlaylistSongs &&
+  //       playListDetailById.PlaylistSongs.length > 0 && (
+  //         <Table
+  //           pagination={false}
+  //           columns={columns}
+  //           dataSource={playlistData}
+  //           style={{
+  //             marginTop: "20px",
+  //           }}
+  //           onRow={(record) => ({
+  //             onClick: () => {
+  //               handlePlayMusic(record.id);
+  //             },
+  //           })}
+  //           className="custom-transparent-table"
+  //           rowClassName={(record) => record.className}
+  //         />
+  //       )}
+
+  //     <div>
+  //       {isVisible && (
+  //         <div className="flex">
+  //           <h1 className="text-2xl font-medium mt-10" style={{ width: "90%" }}>
+  //             Hãy cùng tìm nội dung cho danh sách phát của bạn
+  //           </h1>
+  //           <Button
+  //             onClick={handleClose}
+  //             className="text-3xl font-medium mt-10"
+  //             style={{
+  //               width: "10%",
+  //               backgroundColor: "transparent",
+  //               border: "none",
+  //             }}
+  //             icon={
+  //               <CloseOutlined className="text-white font-medium text-xl" />
+  //             }
+  //           />
+  //         </div>
+  //       )}
+
+  //       {!isVisible && (
+  //         <div className="flex">
+  //           <div style={{ width: "90%" }}>
+  //             <h1 className="text-2xl font-medium mt-10">Đề xuất</h1>
+  //             <p className="text-sm text-gray-400 mt-3">
+  //               Dựa trên nội dung có trong danh sách phát này
+  //             </p>
+  //           </div>
+  //           <h5
+  //             className="mt-10 hover:cursor-pointer hover:font-medium"
+  //             style={{ width: "10%" }}
+  //             onClick={() => setIsVisible(true)}
+  //           >
+  //             Tìm thêm
+  //           </h5>
+  //         </div>
+  //       )}
+
+  //       {isVisible && (
+  //         <Input
+  //           placeholder="Tìm bài hát và tập podcast"
+  //           prefix={<SearchOutlined />}
+  //           onChange={handleSearch}
+  //           style={{
+  //             marginTop: "20px",
+  //             backgroundColor: "#121212",
+  //             color: "white",
+  //             width: "40%",
+  //           }}
+  //           value={searchQuery}
+  //           allowClear
+  //           className="custom-input"
+  //         />
+  //       )}
+
+  //       {(searchQuery || !isVisible) && (
+  //         <Table
+  //           className="custom-transparent-table"
+  //           columns={columns} // Đảm bảo bạn đã định nghĩa `columns`
+  //           showHeader={false}
+  //           dataSource={filteredData}
+  //           pagination={{
+  //             pageSize: 10,
+  //             showSizeChanger: true,
+  //           }}
+  //           style={{
+  //             marginTop: "20px",
+  //             backgroundColor: "#121212",
+  //             color: "white",
+  //           }}
+  //           rowClassName={() => "custom-row"}
+  //         />
+  //       )}
+  //     </div>
+
+  //     <Modal
+  //       className="custom-modal"
+  //       title=<h1
+  //         className="text-xl text-white"
+  //         style={{ backgroundColor: " rgb(49, 49, 49)" }}
+  //       >
+  //         Sửa thông tin chi tiết
+  //       </h1>
+  //       visible={isModalVisible}
+  //       onOk={handleSave}
+  //       onCancel={handleCancel}
+  //       width={500}
+  //       footer={[
+  //         <Button key="submit" type="primary" onClick={handleSave}>
+  //           Lưu
+  //         </Button>,
+  //         <p style={{ marginTop: "16px", fontSize: "13px", textAlign: "left" }}>
+  //           Bằng cách tiếp tục, bạn đồng ý cho phép Spotify truy cập vào hình
+  //           ảnh bạn đã chọn để tải lên. Vui lòng đảm bảo bạn có quyền tài lên
+  //           hình ảnh.
+  //         </p>,
+  //       ]}
+  //     >
+  //       <Form form={form}>
+  //         <div
+  //           style={{
+  //             display: "flex",
+  //             alignItems: "flex-start",
+  //             padding: "20px 0",
+  //             height: "230px",
+  //           }}
+  //         >
+  //           <img
+  //             src={playListDetailById.imagePath}
+  //             alt="ảnh"
+  //             style={{
+  //               width: "35%",
+  //               height: "100%",
+  //               objectFit: "cover",
+  //               marginRight: "16px",
+  //               borderRadius: "4px",
+  //             }}
+  //           />
+  //           <div style={{ flex: 1 }}>
+  //             <Form.Item name="playlistName">
+  //               <Input
+  //                 className="custom-input"
+  //                 style={{
+  //                   backgroundColor: "#4a4a4a",
+  //                   border: "none",
+  //                   color: "white",
+  //                 }}
+  //                 placeholder="Danh sách phát của tôi #2"
+  //               />
+  //             </Form.Item>
+  //             <Form.Item name="description">
+  //               <Input.TextArea
+  //                 className="custom-input"
+  //                 rows={5}
+  //                 placeholder="Thêm phần mô tả không bắt buộc"
+  //                 style={{
+  //                   marginTop: "16px",
+  //                   backgroundColor: "#4a4a4a",
+  //                   border: "none",
+  //                   color: "white",
+  //                 }}
+  //               />
+  //             </Form.Item>
+  //           </div>
+  //         </div>
+  //       </Form>
+  //     </Modal>
+
+  //   </div>
+  // );
   return (
     <div
       style={{
@@ -403,7 +705,8 @@ const PlaylistComponent = () => {
           <Avatar
             shape="square"
             size={200}
-            src={playListDetailById.imagePath}
+            src='https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg'
+            // {playListDetailById.imagePath}
             alt="Playlist cover"
           />
         </Col>
@@ -411,10 +714,12 @@ const PlaylistComponent = () => {
           <Space direction="vertical">
             <Text type="secondary">Playlist</Text>
             <Title style={{ color: "white", margin: 0 }}>
-              {playListDetailById.playlistName}
+              Tên Playlist
+              {/* {playListDetailById.playlistName} */}
             </Title>
             <Text style={{ color: "white", fontSize: "16px" }}>
-              {user?.name} • {playListDetailById.PlaylistSongs?.length} bài hát,
+              {/* {user?.name} • {playListDetailById.PlaylistSongs?.length} bài hát, */}
+              Tên người dùng • Số bài hát,
               {formattedDuration}
             </Text>
           </Space>
@@ -445,12 +750,11 @@ const PlaylistComponent = () => {
         </Col>
       </Row>
 
-      {playListDetailById.PlaylistSongs &&
-        playListDetailById.PlaylistSongs.length > 0 && (
+      
           <Table
             pagination={false}
             columns={columns}
-            dataSource={playlistData}
+            dataSource={[1,2,3]}
             style={{
               marginTop: "20px",
             }}
@@ -462,7 +766,7 @@ const PlaylistComponent = () => {
             className="custom-transparent-table"
             rowClassName={(record) => record.className}
           />
-        )}
+      
 
       <div>
         {isVisible && (

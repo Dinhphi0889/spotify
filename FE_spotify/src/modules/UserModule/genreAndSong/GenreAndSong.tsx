@@ -49,6 +49,69 @@ const handlePlayMusic = (id :any) => {
   
 
   // Define columns for the Ant Design Table
+  // const columns = [
+  //   {
+  //     title: "#",
+  //     dataIndex: "number",
+  //     key: "number",
+  //     width: "5%",
+  //     render: (_: any, record :any, index: any) => <span>{index + 1}</span>
+  //   },
+  //   {
+  //     title: "Tiêu đề",
+  //     dataIndex: "title",
+  //     key: "title",
+  //     width: "40%",
+  //     render: (_: any, record: any) => {
+  //       const artist = users.find(
+  //         (user: TypeUser) => user.userId === record.userId
+  //       );
+
+  //       return (
+  //         <div className="flex">
+  //           <img
+  //             src={record.songImage}
+  //             alt={record.songName}
+  //             style={{ width: "65px", height: "50px" }}
+  //           />
+
+  //           <div className="pl-5">
+  //             <div>{record.songName}</div>
+  //             <div style={{ fontSize: "14px", color: "gray" }}>
+  //               <Link
+  //                 to={`/detail-artists/${artist?.userId}`}
+  //                 className="hover:text-green-500"
+  //               >
+  //                 {artist ? artist.name : ""}
+  //               </Link>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       );
+  //     },
+  //   },
+  //   {
+  //     title: "Ngày thêm",
+  //     dataIndex: "addedDate",
+  //     key: "addedDate",
+  //     render: (_: any, record: any) => {
+  //       const formattedDate = moment(record.date).format("DD/MM/YYYY");
+  //       return <span>{formattedDate}</span>;
+  //     },
+  //     width: "15%",
+  //   },
+  //   {
+  //     title: <ClockCircleOutlined />,
+  //     dataIndex: "duration",
+  //     key: "duration",
+  //     width: "10%",
+  //   },
+  //   {
+  //     dataIndex: "action",
+  //     key: "action",
+  //     width: "10%",
+  //   },
+  // ];
   const columns = [
     {
       title: "#",
@@ -63,26 +126,26 @@ const handlePlayMusic = (id :any) => {
       key: "title",
       width: "40%",
       render: (_: any, record: any) => {
-        const artist = users.find(
-          (user: TypeUser) => user.userId === record.userId
-        );
+        // const artist = users.find(
+        //   (user: TypeUser) => user.userId === record.userId
+        // );
 
         return (
           <div className="flex">
             <img
-              src={record.songImage}
-              alt={record.songName}
+              src='https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg'
+              alt='Bài hát 1'
               style={{ width: "65px", height: "50px" }}
             />
 
             <div className="pl-5">
-              <div>{record.songName}</div>
+              <div>Tên Bài hát </div>
               <div style={{ fontSize: "14px", color: "gray" }}>
                 <Link
-                  to={`/detail-artists/${artist?.userId}`}
+                  to={`/detail-artists/1`}
                   className="hover:text-green-500"
                 >
-                  {artist ? artist.name : ""}
+                Tên Ca sĩ 
                 </Link>
               </div>
             </div>
@@ -95,8 +158,8 @@ const handlePlayMusic = (id :any) => {
       dataIndex: "addedDate",
       key: "addedDate",
       render: (_: any, record: any) => {
-        const formattedDate = moment(record.date).format("DD/MM/YYYY");
-        return <span>{formattedDate}</span>;
+        // const formattedDate = moment(record.date).format("DD/MM/YYYY");
+        return <span>30/10/2024</span>;
       },
       width: "15%",
     },
@@ -118,16 +181,22 @@ const handlePlayMusic = (id :any) => {
 
   return (
     <div>
-      <h1 className="font-medium text-lg ml-5 mt-5 bg-green-600 text-black inline px-5 py-2 rounded">{genreFind ? genreFind.nameGenre : ""} song</h1>
+      <h1 className="font-medium text-lg ml-5 mt-5 bg-green-600 text-black inline px-5 py-2 rounded">
+        {/* {genreFind ? genreFind.nameGenre : ""}  */}
+       Tên thể loại nhạc</h1>
       <Table 
         columns={columns} 
-        dataSource={filteredSongs} 
+        dataSource={[1,2,3]}
+        // {filteredSongs} 
         rowKey="id" 
         className="custom-transparent-table mt-5 px-5"
-        pagination={{ pageSize: 10 }} // Optional: Controls pagination
+        pagination={{ pageSize: 2 }} // Optional: Controls pagination
         onRow={(record) => ({
           onClick: () => {
-            handlePlayMusic(record.songId);
+            handlePlayMusic(
+              // record.songId
+              13
+            );
           },
         })}
       />
